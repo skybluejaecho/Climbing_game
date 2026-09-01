@@ -1,0 +1,4 @@
+import {describe,expect,it} from 'vitest';
+import {logicalToScreen,logicalToWorld,screenToLogical,viewportTransform} from './viewport';
+describe('portrait viewport',()=>{it('letterboxes and maps pointers through the exact inverse',()=>{for(const size of [[1920,1080],[600,1200],[720,960]]){const view=viewportTransform(size[0],size[1]),logical={x:123,y:789};expect(view.scale).toBeGreaterThan(0);expect(screenToLogical(logicalToScreen(logical,view),view)).toEqual(logical);expect(view.offsetX).toBeGreaterThanOrEqual(0);expect(view.offsetY).toBeGreaterThanOrEqual(0);}});});
+it('adds the render camera offset exactly once when mapping input to world space, including a falling camera',()=>{expect(logicalToWorld({x:123,y:456},-237.5)).toEqual({x:123,y:218.5});expect(logicalToWorld({x:123,y:456},320)).toEqual({x:123,y:776});});
